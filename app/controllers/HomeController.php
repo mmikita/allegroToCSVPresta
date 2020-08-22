@@ -20,6 +20,29 @@ class HomeController extends BaseController {
 	{
 $token = $this->getToken();
 $resonse = $this->getMainProducts($token);
+$obj = json_decode($resonse, true);
+
+//$items = $obj->$items;
+
+$obj2 =  $obj['items'];
+
+
+foreach($obj2['regular'] as $item) {
+
+    print_r($item['name']);
+
+}
+
+
+    }
+
+//foreach($items as $item) { //foreach element in $arr
+ // $result = json_encode($value);
+
+ //$result = json_encode($item,true);
+
+   //  print_r($result);
+//}
 
 
   //     return View::make('hello');
@@ -27,7 +50,7 @@ $resonse = $this->getMainProducts($token);
 
         
 
-	}
+	
 
 function getToken(){
     $authUrl = "https://allegro.pl.allegrosandbox.pl/auth/oauth/token?grant_type=client_credentials";
@@ -80,7 +103,7 @@ function getToken(){
         $categoriesList = json_decode($mainCategoriesResult);
         
         
-        return json_encode($categoriesList, JSON_PRETTY_PRINT);
+        return $mainCategoriesResult;
 	}
 	
 
