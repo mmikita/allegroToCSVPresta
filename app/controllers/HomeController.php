@@ -19,11 +19,8 @@ class HomeController extends BaseController {
 	public function showWelcome()
 	{
 $token = $this->getToken();
+$resonse = $this->getMainProducts($token);
 
-
-
-
-print_r($this->getMainProducts($token));
 
   //     return View::make('hello');
 
