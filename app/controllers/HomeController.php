@@ -50,15 +50,13 @@ $obj = json_decode($resonse, true);
 $obj2 =  $obj['items'];
 
 
-
-
-
-
 $data = array();
 
 foreach($obj2['regular'] as $item) {
 
-    print_r($item['name']);
+    print("<pre>".print_r($item,true)."</pre>");
+
+
     array_push($data, array('', '', $item['name'], 'Data 14', 'Data 15'));
 
 
@@ -73,45 +71,8 @@ foreach($obj2['regular'] as $item) {
         // Close the file
         fclose($file);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
-//foreach($items as $item) { //foreach element in $arr
- // $result = json_encode($value);
-
- //$result = json_encode($item,true);
-
-   //  print_r($result);
-//}
-
-
-  //     return View::make('hello');
 
 
         
