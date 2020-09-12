@@ -55,27 +55,21 @@ $obj2 =  $obj['items'];
 $data = array();
 
 foreach($obj2['regular'] as $item) {
-
-
-    //print("<pre>".print_r($item,true)."</pre>");
-  //  $category = $this->getCategoryById($token, '32');
-  //  https://api.{environment}/sale/categories/{categoryId}
+  
     $category = $this->getCategoryById($token, $item['category']['id']);
     $cat = json_decode($category, true);
-
+    $categories = $cat['name'];
 while(1){
     $category = $this->getCategoryById($token, $cat['parent']['id']);
     $cat = json_decode($category, true);
     if($cat['parent']['id'] ==''){
-        print("<pre>".print_r($cat,true)."</pre>");
+        $categories = $cat['name']."|". $categories;
     break;
         }   
-        print("<pre>".print_r($cat,true)."</pre>");
+      //  print("<pre>".print_r($cat,true)."</pre>");
+        $categories = $cat['name']."|". $categories;
     }
-
-
-   
-    array_push($data, array($item['id'], '1', $item['name'], $cat['name'], 'Data 15'));
+    array_push($data, array($item['id'], '1', $item['name'], $categories, 'Data 15'));
 
 
 }
@@ -90,13 +84,6 @@ while(1){
         fclose($file);
 
     }
-
-
-
-        
-
-	
-
 function getToken(){
     $authUrl = "https://allegro.pl.allegrosandbox.pl/auth/oauth/token?grant_type=client_credentials";
     $clientId = "d20d65b102d54365a920e6f56f13a4f9";
@@ -128,7 +115,9 @@ function getToken(){
 	function getMainProducts(String $token)
     {
      //   $opinie = "https://api.allegro.pl.allegrosandbox.pl/offers/listing?seller.id=44292194";
-     $opinie = "https://api.allegro.pl.allegrosandbox.pl/offers/listing?seller.id=44090896";
+  $opinie = "https://api.allegro.pl.allegrosandbox.pl/offers/listing?seller.id=44090896";
+
+      
 
         $ch = curl_init($opinie);
         
