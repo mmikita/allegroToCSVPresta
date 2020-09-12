@@ -66,10 +66,10 @@ while(1){
         $categories = $cat['name']."|". $categories;
     break;
         }   
-      //  print("<pre>".print_r($cat,true)."</pre>");
         $categories = $cat['name']."|". $categories;
     }
-    array_push($data, array($item['id'], '1', $item['name'], $categories, 'Data 15'));
+    print("<pre>".print_r($item,true)."</pre>");
+    array_push($data, array($item['id'], '1', $item['name'], $categories, '1' , '', '', ''));
 
 
 }
