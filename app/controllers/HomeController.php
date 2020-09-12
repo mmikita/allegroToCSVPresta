@@ -42,7 +42,7 @@ class HomeController extends BaseController {
          
 
 $token = $this->getToken();
-$category = $this->getCategoryById($token, '32');
+
 
 $resonse = $this->getMainProducts($token);
 $obj = json_decode($resonse, true);
@@ -56,13 +56,26 @@ $data = array();
 
 foreach($obj2['regular'] as $item) {
 
+
     //print("<pre>".print_r($item,true)."</pre>");
-
+  //  $category = $this->getCategoryById($token, '32');
   //  https://api.{environment}/sale/categories/{categoryId}
+    $category = $this->getCategoryById($token, $item['category']['id']);
+    $cat = json_decode($category, true);
+
+while(1){
+    $category = $this->getCategoryById($token, $cat['parent']['id']);
+    $cat = json_decode($category, true);
+    if($cat['parent']['id'] ==''){
+        print("<pre>".print_r($cat,true)."</pre>");
+    break;
+        }   
+        print("<pre>".print_r($cat,true)."</pre>");
+    }
 
 
-
-    array_push($data, array($item['id'], '1', $item['name'], 'Data 14', 'Data 15'));
+   
+    array_push($data, array($item['id'], '1', $item['name'], $cat['name'], 'Data 15'));
 
 
 }
@@ -114,7 +127,8 @@ function getToken(){
 
 	function getMainProducts(String $token)
     {
-        $opinie = "https://api.allegro.pl.allegrosandbox.pl/offers/listing?seller.id=44292194";
+     //   $opinie = "https://api.allegro.pl.allegrosandbox.pl/offers/listing?seller.id=44292194";
+     $opinie = "https://api.allegro.pl.allegrosandbox.pl/offers/listing?seller.id=44090896";
 
         $ch = curl_init($opinie);
         
@@ -140,7 +154,7 @@ function getToken(){
     
     function getCategoryById(String $token, String $category)
     {
-        $category = "https://api.allegro.pl.allegrosandbox.pl/sale/categories/25955";
+        $category = "https://api.allegro.pl.allegrosandbox.pl/sale/categories/".$category;
         $ch = curl_init($category);
         
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -157,7 +171,6 @@ function getToken(){
             exit ("Something went wroner " . $resultCode . $categoryResp);
         }
      
-        print_r($categoryResp);
         
         return $categoryResp;
 	}
