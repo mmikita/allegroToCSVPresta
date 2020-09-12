@@ -47,15 +47,17 @@ $token = $this->getToken();
 $resonse = $this->getMainProducts($token);
 $obj = json_decode($resonse, true);
 
-
-
 $obj2 =  $obj['items'];
-
-
 $data = array();
 
-foreach($obj2['regular'] as $item) {
-  
+
+foreach($obj2 as $sem) {
+
+
+
+
+foreach($sem as $item) {
+ //   print("<pre>".print_r($item,true)."</pre>");
     $category = $this->getCategoryById($token, $item['category']['id']);
     $cat = json_decode($category, true);
     $categories = $cat['name'];
@@ -68,11 +70,11 @@ while(1){
         }   
         $categories = $cat['name']."|". $categories;
     }
-    print("<pre>".print_r($item,true)."</pre>");
-    array_push($data, array($item['id'], '1', $item['name'], $categories, '1' , '', '', ''));
+
+    array_push($data, array($item['id'], '1', $item['name'], $categories, '1'));
 
 
-}
+}}
          
         // save each row of the data
         foreach ($data as $row)
