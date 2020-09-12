@@ -42,6 +42,8 @@ class HomeController extends BaseController {
          
 
 $token = $this->getToken();
+$category = $this->getCategoryById($token, '32');
+
 $resonse = $this->getMainProducts($token);
 $obj = json_decode($resonse, true);
 
@@ -54,10 +56,13 @@ $data = array();
 
 foreach($obj2['regular'] as $item) {
 
-    print("<pre>".print_r($item,true)."</pre>");
+    //print("<pre>".print_r($item,true)."</pre>");
+
+  //  https://api.{environment}/sale/categories/{categoryId}
 
 
-    array_push($data, array('', '', $item['name'], 'Data 14', 'Data 15'));
+
+    array_push($data, array($item['id'], '1', $item['name'], 'Data 14', 'Data 15'));
 
 
 }
@@ -132,7 +137,30 @@ function getToken(){
         
         return $mainCategoriesResult;
 	}
-	
+    
+    function getCategoryById(String $token, String $category)
+    {
+        $category = "https://api.allegro.pl.allegrosandbox.pl/sale/categories/25955";
+        $ch = curl_init($category);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                     "Authorization: Bearer $token",
+                     "Accept: application/vnd.allegro.public.v1+json"
+        ]);
+        
+        $categoryResp = curl_exec($ch);
+        $resultCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        
+        if ($categoryResp === false || $resultCode !== 200) {
+            exit ("Something went wroner " . $resultCode . $categoryResp);
+        }
+     
+        print_r($categoryResp);
+        
+        return $categoryResp;
+	}
 
 
 
